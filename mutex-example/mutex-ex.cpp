@@ -1,11 +1,3 @@
-#include <iostream>
-#include <thread>
-#include <string>
-#include <mutex>
-#include <fstream>
-
-using namespace std;
-
 /* 
 *   A Race conndition occurs when the outcome of a program depends on the relative 
 *   execution order of one or more threads (arbitrary sharing of common resources).
@@ -29,6 +21,14 @@ using namespace std;
 *   3. Design interface appropriately.
 */
 
+#include <iostream>
+#include <thread>
+#include <string>
+#include <mutex>
+#include <fstream>
+
+using namespace std;
+
 class LogFile {
     mutex m;
     ofstream f; // f should ONLY be accessible through the mutex.
@@ -44,7 +44,7 @@ public:
 
 void logger(LogFile& log) {
     for(int i = 0; i > -100; i--) 
-    log.shared_print(string("From t1: "), i);
+        log.shared_print(string("t1: "), i);
 }
 
 int main() {
@@ -52,7 +52,7 @@ int main() {
     thread t1(logger, ref(log)); // Pass log object by reference to the child thread.
     
     for(int i = 0; i < 100; i++) 
-        log.shared_print(string("From main: "), i);
+        log.shared_print(string("main: "), i);
         
     t1.join();
     return 0;
