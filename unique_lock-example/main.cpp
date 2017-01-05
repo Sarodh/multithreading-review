@@ -31,7 +31,7 @@ public:
         //     f.open("log.txt");
         // }
         
-        call_once(fl, [&](){ f.open("log.txt"); }); // lambda function to ensure the file will be opened only once by one thread 
+        call_once(fl, [&](){ f.open("log.txt"); }); // Lambda function to ensure the file will be opened only once by one thread 
         
         unique_lock<mutex> locker(m, defer_lock); // std::defer_lock indicates the mutex shouldn't lock till locker.lock() is explicitly called. 
         // Do something that doesn't require ofstream resource...
